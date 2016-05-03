@@ -98,7 +98,7 @@ class AD5933 {
         static bool reset(void);
 
         // Temperature measuring
-        static bool setTemperature(byte);
+        static bool enableTemperature(byte);
         static double getTemperature(void);
 
         // Clock

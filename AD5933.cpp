@@ -114,7 +114,7 @@ bool AD5933::reset() {
  * @param enable Option to enable to disable temperature measurement.
  * @return Success or failure
  */
-bool AD5933::setTemperature(byte enable) {
+bool AD5933::enableTemperature(byte enable) {
     // If enable, set temp measure bits. If disable, reset to no operation.
     if (enable == TEMP_MEASURE) {
         return setControlMode(CTRL_TEMP_MEASURE);
