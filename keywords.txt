@@ -30,6 +30,7 @@ setControlMode	KEYWORD2
 setRange	KEYWORD2
 frequencySweep	KEYWORD2
 setPowerMode	KEYWORD2
+calibrate	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
