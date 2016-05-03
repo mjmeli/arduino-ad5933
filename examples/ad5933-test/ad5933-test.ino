@@ -94,9 +94,6 @@ void frequencySweepRaw() {
     // Create variables to hold the impedance data and track frequency
     int real, imag, i = 0, cfreq = START_FREQ/1000;
 
-    // Character array to hold data to print
-    char str[65];
-
     // Initialize the frequency sweep
     if (!(AD5933::setPowerMode(POWER_STANDBY) &&          // place in standby
           AD5933::setControlMode(CTRL_INIT_START_FREQ) && // init start freq
