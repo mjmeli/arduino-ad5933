@@ -30,7 +30,7 @@ Simply move the entire folder `arduino-ad5933` to your `Arduino/libraries` folde
 #### Example
 Perhaps the easiest way to see how to use the library is to look at the example code in the `examples` directory. Once you install the library, you can easily open this code in the Arduino editor by going to `File > Examples > arduino-ad5933 > ad5933-test`.
 
-#### Usage
+#### Brief Overview
 There are an assortment of functions in `AD5933.h` that can be used with numerous constants. Each one of the functions are static, so be sure to include `AD5933::` in front. Here I cover a few of the main ones.
 
 NOTE: Many of these functions return booleans indicating their success. This may be useful for debugging.
