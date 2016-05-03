@@ -30,6 +30,8 @@ Simply move the entire folder `arduino-ad5933` to your `Arduino/libraries` folde
 #### Example
 Perhaps the easiest way to see how to use the library is to look at the example code in the `examples` directory. Once you install the library, you can easily open this code in the Arduino editor by going to `File > Examples > arduino-ad5933 > ad5933-test`.
 
+This example will show you how to initially setup the AD5933 and run frequency sweeps. There are two methods for doing a frequency sweep. The first is by using the `frequencySweep()` function. This function is very easy to use, but you have to wait until the entire sweep is complete before handling data in bulk and this requires more memory, especially for large sweeps. The other method is by manipulating the AD5933 at the I2C level directly, which is slightly more complex, but allows you to handle data immediately after a reading and has significantly lower memory overhead.
+
 #### Brief Overview
 There are an assortment of functions in `AD5933.h` that can be used with numerous constants. Each one of the functions are static, so be sure to include `AD5933::` in front. Here I cover a few of the main ones.
 
