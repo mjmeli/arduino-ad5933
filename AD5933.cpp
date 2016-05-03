@@ -131,7 +131,7 @@ bool AD5933::enableTemperature(byte enable) {
  */
 double AD5933::getTemperature() {
     // Set temperature mode
-    if (setTemperature(TEMP_MEASURE)) {
+    if (enableTemperature(TEMP_MEASURE)) {
         // Wait for a valid temperature to be ready
         while((readStatusRegister() & STATUS_TEMP_VALID) != STATUS_TEMP_VALID) ;
 
