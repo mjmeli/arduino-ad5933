@@ -53,6 +53,10 @@
 // Clock sources
 #define CLOCK_INTERNAL  (CTRL_CLOCK_INTERNAL)
 #define CLOCK_EXTERNAL  (CTRL_CLOCK_EXTERNAL)
+// Settling time
+#define SETTLE_CYCLES_X1  (0b00000000)
+#define SETTLE_CYCLES_X2  (0b00000010)
+#define SETTLE_CYCLES_X4  (0b00000110)
 // PGA gain options
 #define PGA_GAIN_X1     (CTRL_PGA_GAIN_X1)
 #define PGA_GAIN_X5     (CTRL_PGA_GAIN_X5)
@@ -80,6 +84,10 @@
 #define CTRL_CLOCK_INTERNAL     (0b00000000)
 #define CTRL_PGA_GAIN_X1        (0b00000001)
 #define CTRL_PGA_GAIN_X5        (0b00000000)
+#define CTRL_VOLTS_2_0          (0b00000000)
+#define CTRL_VOLTS_0_2          (0b00000010)
+#define CTRL_VOLTS_0_4          (0b00000100)
+#define CTRL_VOLTS_1_0          (0b00000110)
 // Status register options
 #define STATUS_TEMP_VALID       (0x01)
 #define STATUS_DATA_VALID       (0x02)
@@ -104,18 +112,21 @@ class AD5933 {
         // Clock
         static bool setClockSource(byte);
         static bool setInternalClock(bool);
-        //bool setSettlingCycles(int); // not implemented - not used yet
+        static bool setSettlingCycles(byte, int);
 
         // Frequency sweep configuration
         static bool setStartFrequency(unsigned long);
+        static bool setStartCode(uint32_t);
         static bool setIncrementFrequency(unsigned long);
+        static bool setIncrementCode(uint32_t);
         static bool setNumberIncrements(unsigned int);
+        static uint32_t freqToCode(uint32_t);
 
         // Gain configuration
         static bool setPGAGain(byte);
 
-        // Excitation range configuration
-        //bool setRange(byte, int); // not implemented - not used yet
+        // Set the excitation voltage range
+        static bool setOutputVoltage(byte);
 
         // Read registers
         static byte readRegister(byte);
@@ -124,6 +135,8 @@ class AD5933 {
 
         // Impedance data
         static bool getComplexData(int*, int*);
+        static bool getComplexData(int*, int*, int);
+        static bool getComplexData16(int16_t*, int16_t*, int);
 
         // Set control mode register (CTRL_REG1)
         static bool setControlMode(byte);
@@ -132,7 +145,9 @@ class AD5933 {
         static bool setPowerMode(byte);
 
         // Perform frequency sweeps
-        static bool frequencySweep(int real[], int imag[], int);
+        static bool frequencySweep(int real[], int imag[], int n, int numAvg=1);
+        static bool frequencySweep16(int16_t real[], int16_t imag[], int n,
+			             int numAvg=1);
         static bool calibrate(double gain[], int phase[], int ref, int n);
         static bool calibrate(double gain[], int phase[], int real[],
                               int imag[], int ref, int n);
