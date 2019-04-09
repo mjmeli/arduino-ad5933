@@ -138,7 +138,7 @@ class AD5933 {
                               int imag[], int ref, int n);
     private:
         // Private data
-        static const unsigned int clockSpeed = 16776000;
+        static const unsigned long clockSpeed = 16776000;
 
         // Sending/Receiving byte method, for easy re-use
         static int getByte(byte, byte*);
