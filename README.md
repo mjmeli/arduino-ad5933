@@ -11,16 +11,27 @@ The AD5933 is developed by Analog Devices. [From the AD5933 page](http://www.ana
 
 In other words, the AD5933 lets you measure the complex impedance of something.
 
+### Hardware Setup
+Proper setup of the AD5933 is essential for obtaining a good measurement. The excitation voltage, unknown impedance, feedback resistor, and gain should result in the greatest possible voltage at the ADC *without saturating the ADC*. The saturation voltage should be equal to your VDD input, normally 3.0 or 3.3V. The voltage at the ADC is found by: (Voltage at ADC)=(Excitation voltage)(Feedback resistor)(PGA gain)/(unknown impedance).
+
+### Limitations
+Some users have had trouble with the low frequency (sub 8kHz) performance of the AD5933. A possible cause of this was explained in a paper published by L. Matsiev in Electronics:
+https://www.mdpi.com/2079-9292/4/1/1 
+
+In short, the mathematical assumptions of the approach used by the AD5933 are only met when an integer number of waveforms are sampled. At higher frequencies the error introduced disappears in the noise, but at lower frequencies it can be a problem. L. Matsiev models this error and mathematically removes it. Another approach is to attach a lower frequency external clock, which will change the sample rate.
+
+Further information can be found in chapter 4 of the thesis "Adaptation of Electro-Mechanical Impedance Structural Health Monitoring for Use in Spacecraft" by David C. Hunter. This thesis is supposed to be made available on Proquest and through the New Mexico Tech library. But, as of this writing (Sep 2018), there is no sign of it.
+
 ## Library
 
 ### Compatibility
-This library *should* be compatible with any Arduino compatible device, albeit perhaps with some changes. It was developed and tested with an RFduino, but I do not see a reason why it would not work with a regular Arduino.
+This library *should* be compatible with any Arduino compatible device, albeit perhaps with some changes. It was developed and tested with an RFduino, but I do not see a reason why it would not work with a regular Arduino. Futher development was done on an Adafruit Feather Adalogger M0. To allow improve memory management, and allow for increased compatibility, getComplexData16(...) and frequencySweep16(...) functions were added to control word size across platforms.
 
 ### Missing Features
 While the library is enough to get impedance readings, I must admit that it is somewhat incomplete. The following features are yet to be implemented (and likely will not be implemented by me):
 
-* Configure the AD5933 excitation range
-* When performing calibration, calibrate the phase such that the phase of impedance readings can be analyzed
+* Phase support in the calibration functions. The phase can be correctly calculating by implementing the phase correction from the raw data as describe in the AD5933 datasheet, but it is not currently supported in this library.
+* A floating point frequency code converter; freqToCode is currently integer only.
 
 ### Installation
 Simply move the entire folder `arduino-ad5933` to your `Arduino/libraries` folder, usually in your home directory or documents folder.
