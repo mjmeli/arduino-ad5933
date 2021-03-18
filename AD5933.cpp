@@ -178,7 +178,7 @@ bool AD5933::setClockSource(byte source) {
 }
 
 /**
- * Set the color source to internal or not.
+ * Set the clock source to internal or not.
  *
  * @param internal Whether or not to set the clock source as internal.
  * @return Success or failure
@@ -189,6 +189,35 @@ bool AD5933::setInternalClock(bool internal) {
         return setClockSource(CLOCK_INTERNAL);
     else
         return setClockSource(CLOCK_EXTERNAL);
+}
+
+/**
+ * Set the settling time cycles use for frequency sweep.
+ *
+ * @param time The settling time cycles to set.
+ * @return Success or failure
+ */
+bool setSettlingCycles(int time)
+{
+    int i;
+    byte settleTime[2], rsTime[2];
+
+    settleTime[0] = time & 0xFF;        // LSB - 8B
+    settleTime[1] = (time >> 8) & 0xFF; // MSB - 8A
+
+    if (sendByte(NUM_SCYCLES_1, settleTime[1]) && (sendByte(NUM_SCYCLES_2, settleTime[0])))
+    {
+        // Reading values which wrote above
+        if (getByte(NUM_SCYCLES_1, &rsTime[1]) && getByte(NUM_SCYCLES_2, &rsTime[0]))
+        {
+            //checking settling time which send and then read both are same or not
+            if ((settleTime[0] == rsTime[0]) && (settleTime[1] == rsTime[1]))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 /**
@@ -291,6 +320,54 @@ bool AD5933::setPGAGain(byte gain) {
     } else {
         return false;
     }
+}
+
+/**
+ * Set the output voltage range.
+ * Default value to select in this function is CTRL_OUTPUT_RANGE_1
+ *
+ * @param range The output voltage range to select.
+ * @return Success or failure
+ */
+bool AD5933::setRange(byte range)
+{
+    byte val;
+
+    // Get the current value of the control register
+    if(!getByte(CTRL_REG1, &val))
+    {
+        return false;
+    }
+
+    // Clear out the bottom bit, D9 and D10, which is the output voltage range set bit
+    val &=  0xF9;
+
+    // Determine what output voltage range was selected
+    switch (range)
+    {
+        case CTRL_OUTPUT_RANGE_2:
+            // Set output voltage range to 1.0 V p-p typical in CTRL_REG1
+            val |= CTRL_OUTPUT_RANGE_2;
+            break;
+
+        case CTRL_OUTPUT_RANGE_3:
+            // Set output voltage range to 400 mV p-p typical in CTRL_REG1
+            val |= CTRL_OUTPUT_RANGE_3;
+            break;
+        
+        case CTRL_OUTPUT_RANGE_4:
+            // Set output voltage range to 200 mV p-p typical in CTRL_REG1
+            val |= CTRL_OUTPUT_RANGE_4;
+            break;
+
+        default:
+            // Set output voltage range to 200 mV p-p typical in CTRL_REG1
+            val |= CTRL_OUTPUT_RANGE_1;
+            break;
+    }
+
+    //Write to register
+    return sendByte(CTRL_REG1, val);
 }
 
 /**
