@@ -104,7 +104,7 @@ class AD5933 {
         // Clock
         static bool setClockSource(byte);
         static bool setInternalClock(bool);
-        //bool setSettlingCycles(int); // not implemented - not used yet
+        bool setSettlingCycles(int);
 
         // Frequency sweep configuration
         static bool setStartFrequency(unsigned long);
@@ -115,7 +115,7 @@ class AD5933 {
         static bool setPGAGain(byte);
 
         // Excitation range configuration
-        //bool setRange(byte, int); // not implemented - not used yet
+        bool setRange(byte);
 
         // Read registers
         static byte readRegister(byte);
