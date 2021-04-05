@@ -66,6 +66,11 @@
 #define I2C_RESULT_ADDR_NAK      (2)
 #define I2C_RESULT_DATA_NAK      (3)
 #define I2C_RESULT_OTHER_FAIL    (4)
+// Control output voltage range options
+#define CTRL_OUTPUT_RANGE_1		(0b00000000)
+#define CTRL_OUTPUT_RANGE_2		(0b00000110)
+#define CTRL_OUTPUT_RANGE_3		(0b00000100)
+#define CTRL_OUTPUT_RANGE_4		(0b00000010)
 // Control register options
 #define CTRL_NO_OPERATION       (0b00000000)
 #define CTRL_INIT_START_FREQ    (0b00010000)
