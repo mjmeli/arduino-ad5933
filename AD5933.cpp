@@ -514,7 +514,7 @@ bool AD5933::frequencySweep(int real[], int imag[], int n) {
  * @param n Length of the array (or the number of discrete measurements)
  * @return Success or failure
  */
-bool AD5933::calibrate(double gain[], int phase[], int ref, int n) {
+bool AD5933::calibrate(double gain[], int phase[], long ref, int n) {
     // We need arrays to hold the real and imaginary values temporarily
     int *real = new int[n];
     int *imag = new int[n];
@@ -550,7 +550,7 @@ bool AD5933::calibrate(double gain[], int phase[], int ref, int n) {
  * @return Success or failure
  */
 bool AD5933::calibrate(double gain[], int phase[], int real[], int imag[],
-                       int ref, int n) {
+                       long ref, int n) {
     // Perform the frequency sweep
     if (!frequencySweep(real, imag, n)) {
         return false;
