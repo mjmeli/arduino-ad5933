@@ -120,7 +120,7 @@ class AD5933 {
         static bool setPGAGain(byte);
 
         // Excitation range configuration
-        bool setRange(byte);
+        static bool setRange(byte);
 
         // Read registers
         static byte readRegister(byte);
